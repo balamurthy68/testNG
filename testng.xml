@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite parallel="false" name="Suite11May">
+  
+  
+  <test name = "Testset1">
+  <classes>
+      <class name="testNGClasses.testNGFlow"/>
+  	<!-- 
+  	 <parameter name="p_username"  value="tomsmith"/>
+  	 <parameter name="p_password"  value="SuperSecretPassword!"/>
+  	  -->
+  	  <class name="testNGClasses.HomePageTests"/>	
+  </classes>
+  </test>
+ 
+      
+  <test name="firefoxTests">
+    <classes>
+      <class name="testNGClasses.calcTest"/>
+  	<parameter name="browser" value="firefox"/>
+    
+      <class name="testNGClasses.TimeFormatChecker"/>
+    </classes>
+  </test> <!-- Test -->
+</suite> <!-- Suite -->
