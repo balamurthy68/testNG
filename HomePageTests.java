@@ -1,7 +1,8 @@
-package testNGClasses;
+package RegressionTests;
 
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.BeforeClass;
@@ -24,11 +25,11 @@ public class HomePageTests {
 	@BeforeClass
 	public void initialize()
 	{
-		 /* System.setProperty("webdriver.chrome.driver","d://chromedriver.exe");
+		  System.setProperty("webdriver.chrome.driver","d://chromedriver.exe");
 		  driver = new ChromeDriver();
 		  driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 		  driver.get("https://the-internet.herokuapp.com/login");
-		  */
+		  
 		
 		
 	}
@@ -50,14 +51,30 @@ public class HomePageTests {
 	 	 return new Object[][] { { "T Shirt" }, { "Mouse" }, { "Shoes" }};
 	}
 	 
-	
-	@Test (dataProvider="excelData")
-	public void login(String un,String pw) {
+	//TESTMETHOD
+	@Test (dataProvider="excelData", groups = "apitests")
+	public void login(String un,String pw) throws InterruptedException {
 			
 			System.out.println("Username:" + un + " Password: " + pw);
 		
 		//TODO: WRITE WEBDRIVER CODE TO LOGIN TO THE HEROKUAPP APPLICATION USING ABOVE un and pw
-		
+		// identify username - sendkeys un
+			//identify password - sendkeys pw
+			//identify login button -click
+			//validate if logout is present or welcome text is present
+			//click on logout if available
+			//else reload the page
+			
+			
+			driver.findElement(By.name("username")).clear();
+			
+			driver.findElement(By.name("username")).sendKeys(un);
+			driver.findElement(By.name("password")).clear();
+			driver.findElement(By.name("password")).sendKeys(pw);
+			
+			
+			Thread.sleep(1000);
+			
 	}
 	
     @Ignore
@@ -70,11 +87,11 @@ public class HomePageTests {
 	 @DataProvider(name="excelData")
 	    public Object[][] userFormData() throws Exception
 	    {
-	        Object[][] data = testData(xlFilePath, sheetName);
+	        Object[][] data = getTestDataFromExcel(xlFilePath, sheetName);
 	        return data;
 	    }
 	     
-	    public Object[][] testData(String xlFilePath, String sheetName) throws Exception
+	    public Object[][] getTestDataFromExcel(String xlFilePath, String sheetName) throws Exception
 	    {
 	        Object[][] excelData = null;
 	        eat = new ExcelApiTest(xlFilePath);

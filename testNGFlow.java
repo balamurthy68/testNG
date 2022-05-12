@@ -1,4 +1,4 @@
-package testNGClasses;
+package RegressionTests;
 
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeMethod;
@@ -6,19 +6,24 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Ignore;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.AfterSuite;
 
 public class testNGFlow {
 
-	@Test (priority=1)
-	  public void B() {
+	
+	@Test
+	  public void Registration() {
 		  System.out.println("in method B");
 	  }
-	@Test (priority=2)
-  public void A() {
-	  System.out.println("in method A");
+	
+	@Parameters({"p_username","p_password"})
+	@Test (dependsOnMethods="Registration")
+  public void Login(String un,String pw) {
+	  System.out.println("in method A un:" + un + " Password:" +pw);
   
   }
   

@@ -1,25 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<suite parallel="false" name="Suite11May">
-  
-  
+ 
+<suite parallel="false" name="Suite12May">
+  <groups>
+    <run>
+      <exclude name="functest"/>
+    </run>
+  </groups>
   <test name = "Testset1">
-  <classes>
-      <class name="testNGClasses.testNGFlow"/>
-  	<!-- 
-  	 <parameter name="p_username"  value="tomsmith"/>
-  	 <parameter name="p_password"  value="SuperSecretPassword!"/>
-  	  -->
-  	  <class name="testNGClasses.HomePageTests"/>	
+   <classes>
+	<!-- <parameter name="p_username"  value="TOM"/>
+  	 <parameter name="p_password"  value="SUPER"/>
+       
+      <class name="RegressionTests.testNGFlow"/>
+  	 --> 
+  	  
+  	  <class name="RegressionTests.HomePageTests"/>	
   </classes>
   </test>
  
-      
+  <groups>
+    <run>
+      <exclude name="functest"/>
+    </run>
+  </groups>    
   <test name="firefoxTests">
     <classes>
-      <class name="testNGClasses.calcTest"/>
-  	<parameter name="browser" value="firefox"/>
+      <class name="RegressionTests.calcTest"/>
+    	<parameter name="browser" value="firefox"/>
     
-      <class name="testNGClasses.TimeFormatChecker"/>
+      <class name="RegressionTests.TimeFormatTest"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->

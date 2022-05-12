@@ -1,4 +1,4 @@
-package testNGClasses;
+package RegressionTests;
 
 import static org.testng.Assert.assertEquals;
 
@@ -30,9 +30,8 @@ public class calcTest {
  }
 
  
- @Ignore
 	
- @Test()
+ @Test(groups ="apitests")
   public void calcTestadd() {
 		Calculator c = new Calculator("Scientific");
 		
