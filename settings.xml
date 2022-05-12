@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>application.properties</comment>
+  <entry key="driverpath">d</entry>
+  <entry key="username">tom</entry>
+  <entry key="password">superpwd</entry>
+  <entry key="browser">firefox</entry>
+</properties>
