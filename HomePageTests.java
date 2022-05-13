@@ -1,17 +1,24 @@
-package RegressionTests;
+package TestCases;
+
+import static org.testng.Assert.assertFalse;
 
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
+import Pages.LandingPage;
+import Pages.LoginPage;
 import Util.ExcelApiTest;
+import junit.framework.Assert;
 
 
 public class HomePageTests {
@@ -20,9 +27,16 @@ public class HomePageTests {
 	String xlFilePath = "d:\\TestData.xlsx";
     String sheetName = "Sheet1";
     ExcelApiTest eat = null;
+    public LoginPage lp;
+    public LandingPage landingPage;
+	
+    @AfterMethod()
+    public void printLineAfterTestMethod()
+    {
+    	System.out.println("-------------------------------------");
+    }
     
-
-	@BeforeClass
+    @BeforeClass
 	public void initialize()
 	{
 		  System.setProperty("webdriver.chrome.driver","d://chromedriver.exe");
@@ -30,7 +44,7 @@ public class HomePageTests {
 		  driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 		  driver.get("https://the-internet.herokuapp.com/login");
 		  
-		
+		  lp = new LoginPage(driver);
 		
 	}
 
@@ -51,29 +65,38 @@ public class HomePageTests {
 	 	 return new Object[][] { { "T Shirt" }, { "Mouse" }, { "Shoes" }};
 	}
 	 
+	
 	//TESTMETHOD
 	@Test (dataProvider="excelData", groups = "apitests")
 	public void login(String un,String pw) throws InterruptedException {
-			
+			boolean isLoginSuccessful;
 			System.out.println("Username:" + un + " Password: " + pw);
 		
-		//TODO: WRITE WEBDRIVER CODE TO LOGIN TO THE HEROKUAPP APPLICATION USING ABOVE un and pw
-		// identify username - sendkeys un
-			//identify password - sendkeys pw
-			//identify login button -click
-			//validate if logout is present or welcome text is present
-			//click on logout if available
-			//else reload the page
+			lp.typeusername(un);
+			lp.typepassword(pw);
+			lp.clickLoginButton();
 			
+			landingPage= new LandingPage(driver);
 			
-			driver.findElement(By.name("username")).clear();
+			String msg = landingPage.readFlashMsg();
+			System.out.println("****" + un + " " + pw + " ===> " + msg);
 			
-			driver.findElement(By.name("username")).sendKeys(un);
-			driver.findElement(By.name("password")).clear();
-			driver.findElement(By.name("password")).sendKeys(pw);
+			if (msg.contains("You logged into a secure area!"))
+			{
+				isLoginSuccessful = true;
+				System.out.println("Login successful for " + un + " " + pw);
+				landingPage.clickLogout();
+			}
+			else
+			{
+				System.out.println("Login unsuccessful for " + un + " " + pw);
+				isLoginSuccessful = false;
+			}
+			driver.get("https://the-internet.herokuapp.com/login");
 			
+			//Assert is not required in this context
+			//Assert.assertEquals(true, isLoginSuccessful);
 			
-			Thread.sleep(1000);
 			
 	}
 	
@@ -116,5 +139,23 @@ public class HomePageTests {
 	    }
 	
 	
+	    @Test
+	    public void securityCheck()
+	    {
+	    	SoftAssert sa = new SoftAssert();
+			
+	    	
+	    		    	
+	    //check if username is visible 
+	    
+	    	boolean isUsernameTextVisible = lp.isUsernameATextbox();
+	    	sa.assertTrue(isUsernameTextVisible);
+	    	
+	    //password check if password is not visible
+	    	boolean isVisible = lp.isPasswordVisible();
+	    	
+	    	sa.assertFalse(isVisible);
+	    	sa.assertAll();
+	    }
 	
 }
